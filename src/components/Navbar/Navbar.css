@@ -22,7 +22,7 @@
   gap: 20px;
 }
 
-.notification-btn {
+.su-notification-btn {
   position: relative;
   width: 40px;
   height: 40px;
@@ -37,7 +37,7 @@
   transition: all 0.2s ease;
 }
 
-.notification-btn:hover {
+.su-notification-btn:hover {
   background: #7C3AED;
 }
 
@@ -74,6 +74,16 @@
   height: 8px;
   border-radius: 50%;
   background: #7C3AED;
+}
+
+/* SuperAdmin role - Purple badge (#7C3AED) */
+.navbar-superadmin .notification-badge {
+  background: #7C3AED;
+}
+
+/* Admin role - Blue badge (#1089D3) */
+.navbar-admin .notification-badge {
+  background: #1089D3;
 }
 
 .navbar-profile {

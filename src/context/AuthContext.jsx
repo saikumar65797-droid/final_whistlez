@@ -17,6 +17,15 @@ export function AuthProvider({ children }) {
       return null;
     }
   });
+  const [userRole, setUserRole] = useState(() => {
+    if (typeof window === 'undefined') return null;
+    try {
+      const storedRole = window.localStorage.getItem('whistlez_user_role');
+      return storedRole || null;
+    } catch {
+      return null;
+    }
+  });
   const [isAuthLoaded, setIsAuthLoaded] = useState(true);
 
   const getStoredUsers = () => {
@@ -43,18 +52,25 @@ export function AuthProvider({ children }) {
 
   const login = (email, password) => {
     const users = getStoredUsers();
+    const normalizedEmail = email.trim().toLowerCase();
 
-    if (users[email] && users[email].password === password) {
-      const userData = { email };
+    // Check if it's a registered admin
+    if (users[normalizedEmail] && users[normalizedEmail].password === password) {
+      const userData = { email: normalizedEmail };
       window.localStorage.setItem(DEFAULT_USER_KEY, JSON.stringify(userData));
+      window.localStorage.setItem('whistlez_user_role', 'admin');
       setUser(userData);
+      setUserRole('admin');
       return true;
     }
 
-    if (email === DEFAULT_ADMIN_EMAIL && password === DEFAULT_ADMIN_PASSWORD) {
-      const userData = { email };
+    // Check if it's the superadmin
+    if (normalizedEmail === DEFAULT_ADMIN_EMAIL && password === DEFAULT_ADMIN_PASSWORD) {
+      const userData = { email: normalizedEmail };
       window.localStorage.setItem(DEFAULT_USER_KEY, JSON.stringify(userData));
+      window.localStorage.setItem('whistlez_user_role', 'superadmin');
       setUser(userData);
+      setUserRole('superadmin');
       return true;
     }
 
@@ -74,18 +90,32 @@ export function AuthProvider({ children }) {
 
     const userData = { email: normalizedEmail };
     window.localStorage.setItem(DEFAULT_USER_KEY, JSON.stringify(userData));
+    window.localStorage.setItem('whistlez_user_role', 'admin');
+    window.localStorage.setItem('whistlez_admin_onboarded', 'false');
     setUser(userData);
+    setUserRole('admin');
     return true;
   };
 
   const logout = () => {
     window.localStorage.removeItem(DEFAULT_USER_KEY);
+    window.localStorage.removeItem('whistlez_user_role');
+    window.localStorage.removeItem('whistlez_admin_onboarded');
     setUser(null);
+    setUserRole(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: Boolean(user), isAuthLoaded, login, logout, register }}
+      value={{
+        user,
+        userRole,
+        isAuthenticated: Boolean(user),
+        isAuthLoaded,
+        login,
+        logout,
+        register,
+      }}
     >
       {children}
     </AuthContext.Provider>

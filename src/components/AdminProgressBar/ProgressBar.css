@@ -1,4 +1,4 @@
-.progress-indicators {
+.admin-progress-indicators {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +19,7 @@
 }
 
 @media (max-width: 575px) {
-  .progress-indicators {
+  .admin-progress-indicators {
     gap: 10px;
   }
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import WhistlezLogo from '../../assets/whistlez-logo.png';
 import './Login.css';
 
 const SUPERADMIN_EMAIL = 'admin123@gmail.com';
@@ -17,10 +16,18 @@ function Login() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (user?.email?.toLowerCase() === SUPERADMIN_EMAIL) {
+      const role = localStorage.getItem('whistlez_user_role');
+      const isOnboarded = localStorage.getItem('whistlez_admin_onboarded') === 'true';
+
+      if (role === 'superadmin') {
         navigate('/dashboard');
-      } else {
-        navigate('/admin');
+      } else if (role === 'admin') {
+        // If admin hasn't completed onboarding, send to onboarding
+        if (!isOnboarded) {
+          navigate('/type');
+        } else {
+          navigate('/admin');
+        }
       }
     }
   }, [isAuthenticated, navigate, user]);
@@ -41,6 +48,8 @@ function Login() {
       }
 
       if (register(email, password)) {
+        // New admin signup - set onboarded to false and redirect to onboarding
+        localStorage.setItem('whistlez_admin_onboarded', 'false');
         navigate('/type');
         return;
       }
@@ -50,10 +59,17 @@ function Login() {
     }
 
     if (login(email, password)) {
-      if (email.trim().toLowerCase() === SUPERADMIN_EMAIL) {
+      const normalizedEmail = email.trim().toLowerCase();
+      if (normalizedEmail === SUPERADMIN_EMAIL) {
         navigate('/dashboard');
       } else {
-        navigate('/admin');
+        // Check if admin has completed onboarding
+        const isOnboarded = localStorage.getItem('whistlez_admin_onboarded') === 'true';
+        if (!isOnboarded) {
+          navigate('/type');
+        } else {
+          navigate('/admin');
+        }
       }
       return;
     }
@@ -126,14 +142,7 @@ function Login() {
           </div>
         </div>
 
-        <div className="login-visual">
-          <div className="login-visual-overlay" />
-          <div className="login-visual-content">
-            <img className="login-visual-logo" src={WhistlezLogo} alt="Whistlez logo" />
-            <h2>Welcome back</h2>
-            <p>Manage your businesses, users, ads, and reports from one beautifully crafted admin console.</p>
-          </div>
-        </div>
+        
       </div>
     </div>
   );

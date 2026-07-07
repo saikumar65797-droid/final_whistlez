@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import { FaBell } from 'react-icons/fa';
+import { useAuth } from '../../context/AuthContext';
 import './Navbar.css';
 
 function Navbar() {
   const [hasNotification, setHasNotification] = useState(true);
+  const { userRole } = useAuth();
 
   const handleNotificationClick = () => {
     setHasNotification(false);
   };
 
   return (
-    <header className="dashboard-navbar">
+    <header className={`dashboard-navbar navbar-${userRole}`}>
       <div className="navbar-spacer"></div>
       <div className="navbar-actions">
         <button 
           type="button" 
-          className="icon-button notification-btn" 
+          className="icon-button su-notification-btn" 
           aria-label="Notifications"
           onClick={handleNotificationClick}
         >

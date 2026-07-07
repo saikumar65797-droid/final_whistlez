@@ -56,3 +56,9 @@ export const LogoutIcon = ({ isActive }) => (
     <path d="M10 7L15 12L10 17M15 12H3M15 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H15" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
+
+export const LiveQueueIcon = ({ isActive }) => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2.25 3.75H15.75M2.25 7.5H15.75M2.25 11.25H15.75M2.25 15H15.75" stroke={isActive ? "white" : "#8A7A9E"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);

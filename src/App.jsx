@@ -1,26 +1,26 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import DashboardHome from './pages/dashboard/DashboardHome.jsx';
-import Reports from './pages/reports/Reports.jsx';
-import Settings from './pages/settings/Settings.jsx';
-import Users from './pages/Users/Users.jsx';
-import Business from './pages/Business/Business/Business.jsx';
-import ViewBusiness from './pages/Business/ViewBusiness/ViewBusiness.jsx';
-import ManageBusiness from './pages/Business/ManageBusiness/ManageBusiness.jsx';
-import WhistlezRingtone from './pages/WhistlezRingtone/WhistlezRingtone.jsx';
-import Ads from './pages/ads/Ads.jsx';
+import DashboardHome from './pages/superadmin/dashboard/DashboardHome.jsx';
+import Reports from './pages/superadmin/reports/Reports.jsx';
+import Settings from './pages/superadmin/setting/Settings.jsx';
+import Users from './pages/superadmin/users/Users.jsx';
+import Business from './pages/superadmin/business/business/Business.jsx';
+import ViewBusiness from './pages/superadmin/business/viewbusiness/ViewBusiness.jsx';
+import ManageBusiness from './pages/superadmin/business/managebusiness/ManageBusiness.jsx';
+import WhistlezRingtone from './pages/superadmin/whistlezringtone/WhistlezRingtone.jsx';
+import Ads from './pages/superadmin/ads/Ads.jsx';
 import Login from './pages/Login/Login.jsx';
-import BusinessType from './pages/AdminBusiness/BusinessType/BusinessType.jsx';
-import BusinessInfo from './pages/AdminBusiness/BusinessInfo/BusinessInfo.jsx';
-import BusinessLocation from './pages/AdminBusiness/BusinessLocation/BusinessLocation.jsx';
-import QueueConfiguration from './pages/AdminBusiness/QueueConfiguration/QueueConfiguration.jsx';
-import VisualIdentity from './pages/AdminBusiness/VisualIdentity/VisualIdentity.jsx';
-import Confirmation from './pages/AdminBusiness/Confirmation/Confirmation.jsx';
-import AdminDashboardLayout from './pages/AdminBusiness/AdminDashboard/AdminDashboardLayout.jsx';
-import AdminDashboardHome from './pages/AdminBusiness/AdminDashboard/AdminDashboard.jsx';
-import AdminLiveQueue from './pages/AdminBusiness/AdminLiveQueue/AdminLiveQueue.jsx';
-import AdminReports from './pages/AdminBusiness/AdminReports/AdminReports.jsx';
-import AdminSettings from './pages/AdminBusiness/AdminSettings/AdminSettings.jsx';
+import BusinessType from './pages/AdminBusiness/business/BusinessType/BusinessType.jsx';
+import BusinessInfo from './pages/AdminBusiness/business/BusinessInfo/BusinessInfo.jsx';
+import BusinessLocation from './pages/AdminBusiness/business/BusinessLocation/BusinessLocation.jsx';
+import QueueConfiguration from './pages/AdminBusiness/business/QueueConfiguration/QueueConfiguration.jsx';
+import VisualIdentity from './pages/AdminBusiness/business/VisualIdentity/VisualIdentity.jsx';
+import Confirmation from './pages/AdminBusiness/business/Confirmation/Confirmation.jsx';
+import AdminDashboardLayout from './pages/AdminBusiness/admin/AdminDashboard/AdminDashboardLayout.jsx';
+import AdminDashboardHome from './pages/AdminBusiness/admin/AdminDashboard/AdminDashboard.jsx';
+import AdminLiveQueue from './pages/AdminBusiness/admin/AdminLiveQueue/AdminLiveQueue.jsx';
+import AdminReports from './pages/AdminBusiness/admin/AdminReports/AdminReports.jsx';
+import AdminSettings from './pages/AdminBusiness/admin/AdminSettings/AdminSettings.jsx';
 import { useAuth } from './context/AuthContext.jsx';
 import './App.css';
 
@@ -28,7 +28,51 @@ function ScrollToTop() {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    // Immediate scroll to top
+    const scrollToTop = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      // Scroll all possible containers to top
+      const containers = [
+        // SuperAdmin containers
+        document.querySelector('.su-page-content'),
+        document.querySelector('.su-page-main-container'),
+        document.querySelector('.su-page-inner-container'),
+        // Admin containers
+        document.querySelector('.page-admin-container'),
+        document.querySelector('.page-inner-container'),
+        document.querySelector('.whistle-page-content'),
+        document.querySelector('.admin-dashboard-content'),
+        // Other containers
+        document.querySelector('.dashboard-outlet'),
+        document.querySelector('.dashboard-layout'),
+        document.querySelector('main'),
+        document.documentElement,
+        document.body,
+      ];
+
+      containers.forEach((container) => {
+        if (container && container.scrollHeight > 0) {
+          container.scrollTop = 0;
+        }
+      });
+    };
+
+    // Scroll immediately
+    scrollToTop();
+
+    // Also try after a micro delay to ensure DOM is ready
+    const timeoutId = setTimeout(scrollToTop, 0);
+    
+    // Try again after another delay to catch any deferred rendering
+    const timeoutId2 = setTimeout(scrollToTop, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearTimeout(timeoutId2);
+    };
   }, [location.pathname]);
 
   return null;
@@ -108,6 +152,102 @@ function App() {
         element={
           <ProtectedRoute>
             <Ads />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin"
+        element={
+          <ProtectedRoute>
+            <DashboardHome />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardHome />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/users"
+        element={
+          <ProtectedRoute>
+            <Users />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/business"
+        element={
+          <ProtectedRoute>
+            <Business />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/business/view"
+        element={
+          <ProtectedRoute>
+            <ViewBusiness />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/business/manage"
+        element={
+          <ProtectedRoute>
+            <ManageBusiness />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/whistlezringtone"
+        element={
+          <ProtectedRoute>
+            <WhistlezRingtone />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/whistlez-ringtone"
+        element={
+          <ProtectedRoute>
+            <WhistlezRingtone />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/ads"
+        element={
+          <ProtectedRoute>
+            <Ads />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/setting"
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/settings"
+        element={
+          <ProtectedRoute>
+            <Settings />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/reports"
+        element={
+          <ProtectedRoute>
+            <Reports />
           </ProtectedRoute>
         }
       />

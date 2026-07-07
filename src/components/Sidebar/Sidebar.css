@@ -17,8 +17,7 @@
 }
 
 /* Force sidebar background to white to avoid page-level overrides */
-.sidebar,
-.admin-sidebar {
+.sidebar {
   background: #ffffff !important;
 }
 
@@ -99,8 +98,20 @@
   z-index: 50;
 }
 
-.sidebar-collapse-btn:hover {
+.sidebar-superadmin .sidebar-collapse-btn {
   background: #7C3AED;
+}
+
+.sidebar-superadmin .sidebar-collapse-btn:hover {
+  background: #7C3AED;
+}
+
+.sidebar-admin .sidebar-collapse-btn {
+  background: #1089D3;
+}
+
+.sidebar-admin .sidebar-collapse-btn:hover {
+  background: #1089D3;
 }
 
 
@@ -245,12 +256,42 @@
   color: #7c3aed;
 }
 
+.sidebar-superadmin .sidebar-nav li:hover {
+  background: rgba(124, 58, 237, 0.08);
+  color: #7c3aed;
+}
+
+.sidebar-admin .sidebar-nav li:hover {
+  background: rgba(16, 137, 211, 0.08);
+  color: #1089D3;
+}
+
 .sidebar-nav li.active {
   background: #7c3aed;
   color: #ffffff;
 }
 
 .sidebar-nav li.active .nav-icon-wrap {
+  color: #ffffff;
+}
+
+/* SuperAdmin role - Purple highlight (#7C3AED) */
+.sidebar-superadmin .sidebar-nav li.active {
+  background: #7c3aed;
+  color: #ffffff;
+}
+
+.sidebar-superadmin .sidebar-nav li.active .nav-icon-wrap {
+  color: #ffffff;
+}
+
+/* Admin role - Blue highlight (#1089D3) */
+.sidebar-admin .sidebar-nav li.active {
+  background: #1089d3;
+  color: #ffffff;
+}
+
+.sidebar-admin .sidebar-nav li.active .nav-icon-wrap {
   color: #ffffff;
 }
 

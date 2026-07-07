@@ -8,7 +8,7 @@ function YourPageName() {
       <Sidebar />
       <div className="page-inner-container">
         <Navbar />
-        <div className="page-content">
+        <div className="whistle-page-content">
           {/* Your page content goes here */}
           <section className="your-page-section">
             {/* Add your content */}

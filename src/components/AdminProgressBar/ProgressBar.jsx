@@ -2,7 +2,7 @@ import './ProgressBar.css';
 
 function ProgressBar({ stepCount = 5, activeIndex = 0 }) {
   return (
-    <div className="progress-indicators" aria-label="Onboarding progress">
+    <div className="admin-progress-indicators" aria-label="Onboarding progress">
       {Array.from({ length: stepCount }).map((_, index) => (
         <span
           key={index}
