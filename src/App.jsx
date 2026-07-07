@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import DashboardHome from './pages/superadmin/dashboard/DashboardHome.jsx';
-import Reports from './pages/superadmin/reports/Reports.jsx';
+import Reports from './pages/superadmin/Reports/Reports.jsx';
 import Settings from './pages/superadmin/setting/Settings.jsx';
 import Users from './pages/superadmin/users/Users.jsx';
 import Business from './pages/superadmin/business/business/Business.jsx';
