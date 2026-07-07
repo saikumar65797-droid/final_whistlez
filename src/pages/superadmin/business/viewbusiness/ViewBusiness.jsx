@@ -3,7 +3,7 @@ import Sidebar from '../../../../components/Sidebar/Sidebar';
 import Navbar from '../../../../components/Navbar/Navbar';
 import { useSidebar } from '../../../../context/SidebarContext';
 import heroImage from '../../../../assets/kims.jpg';
-import '../ManageBusiness/ManageBusiness.css';
+import '../managebusiness/ManageBusiness.css';
 
 const defaultBusiness = {
   name: 'Sri Krishna Hospital',
