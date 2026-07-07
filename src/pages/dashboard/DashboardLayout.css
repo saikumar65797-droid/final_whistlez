@@ -1,0 +1,68 @@
+.su-dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fbff;
+  margin-left: 0;
+}
+
+.su-dashboard-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px 24px 260px;
+  gap: 24px;
+  flex: 1;
+  width: 100%;
+}
+
+.su-dashboard-outlet {
+  display: grid;
+  gap: 24px;
+}
+
+/* Desktop: Adjust for collapsed sidebar */
+@media (min-width: 1150px) {
+  .su-dashboard-content {
+    padding-left: 260px;
+  }
+
+  .su-dashboard-layout.su-collapsed .su-dashboard-content {
+    padding-left: 88px;
+  }
+}
+
+/* Tablet: Single column, sidebar becomes drawer */
+@media (max-width: 1149px) {
+  .su-dashboard-layout {
+    margin-left: 0;
+    flex-direction: column;
+  }
+
+  .su-dashboard-layout.su-collapsed {
+    margin-left: 0;
+  }
+
+  .su-dashboard-content {
+    padding: 0 16px 24px 0;
+    margin-top: 60px;
+  }
+}
+
+/* Mobile: Adjust padding for toggle button */
+@media (max-width: 575px) {
+  .su-dashboard-layout {
+    margin-left: 0;
+  }
+
+  .su-dashboard-layout.su-collapsed {
+    margin-left: 0;
+  }
+
+  .su-dashboard-content {
+    padding: 16px 12px 20px;
+    margin-top: 70px;
+  }
+
+  .su-dashboard-outlet {
+    gap: 16px;
+  }
+}

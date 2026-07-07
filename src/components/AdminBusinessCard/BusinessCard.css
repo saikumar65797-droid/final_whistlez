@@ -1,0 +1,65 @@
+.admin-business-card {
+  width: 140px;
+  min-height: 120px;
+  background: var(--card);
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 14px;
+  text-align: center;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  color: var(--text);
+}
+
+.admin-business-card:hover {
+  transform: translateY(-4px);
+}
+
+.admin-business-card.active {
+  border-color: var(--primary);
+  border-width: 2px;
+  box-shadow: 0 14px 30px rgba(47, 128, 237, 0.14);
+  transform: translateY(-2px);
+}
+
+.admin-business-card-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(47, 128, 237, 0.06);
+  font-size: 1.25rem;
+}
+
+.admin-business-card span {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 1199px) {
+  .admin-business-card {
+    width: 130px;
+    padding: 16px 12px;
+  }
+}
+
+@media (max-width: 991px) {
+  .admin-business-card {
+    width: 100%;
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 575px) {
+  .admin-business-card {
+    width: 90%;
+    margin: 0 auto;
+  }
+}

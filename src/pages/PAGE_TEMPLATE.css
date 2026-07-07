@@ -1,0 +1,39 @@
+/* Page Container Structure - USE THIS IN ALL PAGES */
+.page-main-container {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fbff;
+}
+
+.page-inner-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.page-inner-container {
+  padding-left: 260px; /* offset for fixed sidebar when pages include Sidebar directly */
+  transition: padding-left 0.3s ease;
+}
+
+.page-inner-container.collapsed {
+  padding-left: 88px;
+}
+
+.page-content {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+}
+
+/* Responsive - when sidebar collapses */
+@media (max-width: 1149px) {
+  .page-inner-container {
+    margin-left: 0;
+  }
+}
+
+/* Your page-specific styles go below */
+.your-page-section {
+  /* Add your custom styles here */
+}
