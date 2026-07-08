@@ -124,13 +124,30 @@ function Ads() {
   const { isCollapsed } = useSidebar();
   const [campaigns, setCampaigns] = useState(initialCampaigns);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editCampaignId, setEditCampaignId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState('');
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [deleteCampaignId, setDeleteCampaignId] = useState(null);
 
   const runningCount = campaigns.filter((campaign) => campaign.status === 'Running').length;
 
   const openModal = () => {
+    setEditCampaignId(null);
     setForm(emptyForm);
+    setFormError('');
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (campaign) => {
+    setEditCampaignId(campaign.id);
+    setForm({
+      name: campaign.name,
+      position: campaign.position,
+      mediaFile: null,
+      mediaPreviewUrl: campaign.image,
+      redirectUrl: campaign.redirectUrl || '',
+    });
     setFormError('');
     setIsModalOpen(true);
   };
@@ -138,6 +155,7 @@ function Ads() {
   const closeModal = () => {
     setIsModalOpen(false);
     setFormError('');
+    setEditCampaignId(null);
   };
 
   const handleFileChange = (event) => {
@@ -168,6 +186,29 @@ function Ads() {
     setCampaigns((prev) => prev.filter((campaign) => campaign.id !== id));
   };
 
+  const openDeleteConfirm = (id) => {
+    setDeleteCampaignId(id);
+    setIsDeleteConfirmOpen(true);
+  };
+
+  const updateCampaign = (id, updates) => {
+    setCampaigns((prev) =>
+      prev.map((campaign) => (campaign.id === id ? { ...campaign, ...updates } : campaign))
+    );
+  };
+
+  const closeDeleteConfirm = () => {
+    setDeleteCampaignId(null);
+    setIsDeleteConfirmOpen(false);
+  };
+
+  const confirmDelete = () => {
+    if (deleteCampaignId) {
+      deleteCampaign(deleteCampaignId);
+    }
+    closeDeleteConfirm();
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const trimmedName = form.name.trim();
@@ -180,27 +221,38 @@ function Ads() {
       return;
     }
 
-    const today = new Date();
-    const startsLabel = today.toLocaleDateString('en-US', {
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric',
-    });
+    if (editCampaignId) {
+      updateCampaign(editCampaignId, {
+        name: trimmedName,
+        position: form.position,
+        image: form.mediaPreviewUrl,
+        redirectUrl: form.redirectUrl,
+      });
+    } else {
+      const today = new Date();
+      const startsLabel = today.toLocaleDateString('en-US', {
+        month: 'short',
+        day: '2-digit',
+        year: 'numeric',
+      });
 
-    const newCampaign = {
-      id: `${trimmedName.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
-      name: trimmedName,
-      starts: startsLabel,
-      position: form.position,
-      status: 'Running',
-      image: form.mediaPreviewUrl,
-      views: '0',
-      clicks: '0',
-      ctr: '0.0',
-    };
+      const newCampaign = {
+        id: `${trimmedName.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+        name: trimmedName,
+        starts: startsLabel,
+        position: form.position,
+        status: 'Running',
+        image: form.mediaPreviewUrl,
+        views: '0',
+        clicks: '0',
+        ctr: '0.0',
+      };
 
-    setCampaigns((prev) => [newCampaign, ...prev]);
+      setCampaigns((prev) => [newCampaign, ...prev]);
+    }
+
     setIsModalOpen(false);
+    setEditCampaignId(null);
     setForm(emptyForm);
     setFormError('');
   };
@@ -234,7 +286,7 @@ function Ads() {
                       <span className={`status-pill ${campaign.status === 'Running' ? 'status-pill--running' : 'status-pill--paused'}`}>
                         {campaign.status}
                       </span>
-                      <button type="button" className="ad-icon-button" aria-label={`Edit ${campaign.name}`}>
+                      <button type="button" className="ad-icon-button" aria-label={`Edit ${campaign.name}`} onClick={() => openEditModal(campaign)}>
                         <PencilIcon />
                       </button>
                       <button
@@ -249,7 +301,7 @@ function Ads() {
                         type="button"
                         className="ad-icon-button ad-icon-button--danger"
                         aria-label={`Delete ${campaign.name}`}
-                        onClick={() => deleteCampaign(campaign.id)}
+                        onClick={() => openDeleteConfirm(campaign.id)}
                       >
                         <TrashIcon />
                       </button>
@@ -292,7 +344,7 @@ function Ads() {
         <div className="ads-modal-overlay" onClick={closeModal}>
           <div className="ads-modal" onClick={(event) => event.stopPropagation()}>
             <div className="ads-modal-header">
-              <h2>New Ad/Campaign</h2>
+              <h2>{editCampaignId ? 'Edit Ad/Campaign' : 'New Ad/Campaign'}</h2>
               <button type="button" className="modal-close-button" onClick={closeModal} aria-label="Close">
                 <CloseIcon />
               </button>
@@ -371,10 +423,32 @@ function Ads() {
                   Cancel
                 </button>
                 <button type="submit" className="modal-button modal-button--upload">
-                  Upload
+                  {editCampaignId ? 'Save Changes' : 'Upload'}
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {isDeleteConfirmOpen && (
+        <div className="ads-modal-overlay" onClick={closeDeleteConfirm}>
+          <div className="ads-modal" onClick={(event) => event.stopPropagation()}>
+            <div className="ads-modal-header">
+              <h2>Delete Campaign</h2>
+              <button type="button" className="modal-close-button" onClick={closeDeleteConfirm} aria-label="Close">
+                <CloseIcon />
+              </button>
+            </div>
+            <p className="confirm-message">Are you sure you want to delete this campaign? This action cannot be undone.</p>
+            <div className="ads-modal-actions">
+              <button type="button" className="modal-button modal-button--cancel" onClick={closeDeleteConfirm}>
+                No
+              </button>
+              <button type="button" className="modal-button modal-button--upload" onClick={confirmDelete}>
+                Yes, delete
+              </button>
+            </div>
           </div>
         </div>
       )}

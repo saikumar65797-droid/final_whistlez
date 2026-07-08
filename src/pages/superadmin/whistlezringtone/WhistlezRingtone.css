@@ -30,6 +30,18 @@
   width: 100%;
 }
 
+@media (max-width: 1149px) {
+  .su-page-inner-container,
+  .su-page-inner-container.su-collapsed,
+  .su-page-inner-container.su-expanded {
+    margin-left: 0;
+  }
+
+  .su-page-content {
+    padding: 20px 18px;
+  }
+}
+
 .whistlez-ringtone-section {
   display: flex;
   flex-direction: column;
@@ -511,6 +523,10 @@
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
+}
+
+.ringtone-modal-actions button {
+  border-radius: 14px;
 }
 
 .ringtone-modal-actions .business-button--outline {

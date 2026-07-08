@@ -30,6 +30,18 @@
   width: 100%;
 }
 
+@media (max-width: 1149px) {
+  .su-page-inner-container,
+  .su-page-inner-container.su-collapsed,
+  .su-page-inner-container.su-expanded {
+    margin-left: 0;
+  }
+
+  .su-page-content {
+    padding: 20px 18px;
+  }
+}
+
 .ads-section {
   display: flex;
   flex-direction: column;
@@ -138,6 +150,15 @@
   padding: 4px 10px;
   border-radius: 999px;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.status-pill::before {
+  display: none !important;
+  content: none !important;
 }
 
 .status-pill--running {
@@ -145,6 +166,7 @@
   color: #1a9d5c;
 }
 
+.ad-preview-actions .status-pill--paused,
 .status-pill--paused {
   background: rgba(241, 241, 245, 0.95);
   color: #8b8ba7;
@@ -302,6 +324,13 @@
   color: #7c3aed;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+.confirm-message {
+  margin: 0;
+  color: #4b4b6b;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .ads-modal-form {

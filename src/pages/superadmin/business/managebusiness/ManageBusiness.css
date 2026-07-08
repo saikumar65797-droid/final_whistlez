@@ -22,7 +22,9 @@
 
 /* Responsive - when sidebar collapses */
 @media (max-width: 1149px) {
-  .su-page-inner-container {
+  .su-page-inner-container,
+  .su-page-inner-container.su-collapsed,
+  .su-page-inner-container.su-expanded {
     margin-left: 0;
   }
 

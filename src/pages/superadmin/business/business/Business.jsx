@@ -4,7 +4,6 @@ import Sidebar from '../../../../components/Sidebar/Sidebar';
 import Navbar from '../../../../components/Navbar/Navbar';
 import { useSidebar } from '../../../../context/SidebarContext';
 import './Business.css';
-import { useEffect } from 'react';
 
 const businesses = [
   {
@@ -139,10 +138,10 @@ function Business() {
                     </div>
 
                     <div className="business-card-actions">
-                      <button type="button" className="business-button--outline" onClick={() => handleViewProfile(business)}>
+                      <button type="button" className="business-button business-button--outline" onClick={() => handleViewProfile(business)}>
                         View Profile
                       </button>
-                      <button type="button" className="business-button--solid" onClick={() => handleManageBusiness(business)}>
+                      <button type="button" className="business-button business-button--solid" onClick={() => handleManageBusiness(business)}>
                         Manage
                       </button>
                     </div>
@@ -177,22 +176,3 @@ function Business() {
 }
 
 export default Business;
-
-// Debug: log sizes to help diagnose layout gap (remove after fix)
-if (typeof window !== 'undefined') {
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      try {
-        const sidebar = document.querySelector('.sidebar');
-        const inner = document.querySelector('.page-inner-container');
-        const content = document.querySelector('.business-business-business-jsx-whistle-page-content');
-        console.log('DEBUG LAYOUT — sidebar offsetWidth:', sidebar?.offsetWidth);
-        console.log('DEBUG LAYOUT — page-inner padding-left (computed):', window.getComputedStyle(inner || document.body).paddingLeft);
-        console.log('DEBUG LAYOUT — page-inner clientWidth:', inner?.clientWidth);
-        console.log('DEBUG LAYOUT — business-business-business-jsx-whistle-page-content padding-left (computed):', window.getComputedStyle(content || document.body).paddingLeft);
-      } catch (e) {
-        console.warn('DEBUG LAYOUT error', e);
-      }
-    }, 500);
-  });
-}

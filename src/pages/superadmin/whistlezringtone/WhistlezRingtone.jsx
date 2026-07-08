@@ -149,6 +149,7 @@ function WhistlezRingtone() {
   const [playingId, setPlayingId] = useState(null);
   const [elapsed, setElapsed] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editRingtoneId, setEditRingtoneId] = useState(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState('');
@@ -322,7 +323,22 @@ function WhistlezRingtone() {
   const ringtonePendingDelete = ringtones.find((ringtone) => ringtone.id === confirmDeleteId);
 
   const openAddModal = () => {
+    setEditRingtoneId(null);
     setForm(emptyForm);
+    setFormError('');
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (ringtone) => {
+    setEditRingtoneId(ringtone.id);
+    setForm({
+      name: ringtone.name,
+      toneType: ringtone.tone || 'bell',
+      audioFile: null,
+      audioUrl: ringtone.audioUrl,
+      duration: ringtone.duration,
+      setAsDefault: ringtone.isDefault,
+    });
     setFormError('');
     setIsModalOpen(true);
   };
@@ -330,6 +346,7 @@ function WhistlezRingtone() {
   const closeAddModal = () => {
     setIsModalOpen(false);
     setFormError('');
+    setEditRingtoneId(null);
   };
 
   const handleFileChange = (event) => {
@@ -363,23 +380,53 @@ function WhistlezRingtone() {
       return;
     }
 
-    const newRingtone = {
-      id: `${trimmedName.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+    const existingRingtone = ringtones.find((ringtone) => ringtone.id === editRingtoneId);
+    const ringtoneData = {
       name: trimmedName,
       duration: form.audioUrl ? form.duration : Number(form.duration) || 10,
       isDefault: form.setAsDefault,
-      active: form.setAsDefault,
+      active: form.setAsDefault ? true : existingRingtone?.active || false,
       tone: form.toneType,
       audioUrl: form.audioUrl,
     };
 
-    setRingtones((prev) =>
-      form.setAsDefault
-        ? [...prev.map((r) => ({ ...r, isDefault: false })), newRingtone]
-        : [...prev, newRingtone]
-    );
+    if (editRingtoneId) {
+      setRingtones((prev) =>
+        prev.map((ringtone) => {
+          if (ringtone.id === editRingtoneId) {
+            return {
+              ...ringtone,
+              ...ringtoneData,
+              active: form.setAsDefault ? true : ringtone.active,
+            };
+          }
+
+          if (form.setAsDefault) {
+            return {
+              ...ringtone,
+              isDefault: false,
+              active: false,
+            };
+          }
+
+          return ringtone;
+        })
+      );
+    } else {
+      const newRingtone = {
+        id: `${trimmedName.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
+        ...ringtoneData,
+      };
+
+      setRingtones((prev) =>
+        form.setAsDefault
+          ? [...prev.map((r) => ({ ...r, isDefault: false, active: false })), newRingtone]
+          : [...prev, newRingtone]
+      );
+    }
 
     setIsModalOpen(false);
+    setEditRingtoneId(null);
     setForm(emptyForm);
     setFormError('');
   };
@@ -481,7 +528,7 @@ function WhistlezRingtone() {
                       )}
 
                       <div className="ringtone-card-icons">
-                        <button type="button" className="icon-button" aria-label={`Edit ${ringtone.name}`}>
+                        <button type="button" className="icon-button" aria-label={`Edit ${ringtone.name}`} onClick={() => openEditModal(ringtone)}>
                           <PencilIcon />
                         </button>
                         <button
@@ -532,7 +579,7 @@ function WhistlezRingtone() {
         <div className="ringtone-modal-overlay" onClick={closeAddModal}>
           <div className="ringtone-modal" onClick={(event) => event.stopPropagation()}>
             <div className="ringtone-modal-header">
-              <h2>Add New Ringtone</h2>
+              <h2>{editRingtoneId ? 'Edit Ringtone' : 'Add New Ringtone'}</h2>
               <button type="button" className="modal-close-button" onClick={closeAddModal} aria-label="Close">
                 <CloseIcon />
               </button>
@@ -620,11 +667,11 @@ function WhistlezRingtone() {
               {formError && <p className="form-error">{formError}</p>}
 
               <div className="ringtone-modal-actions">
-                <button type="button" className="business-button--outline" onClick={closeAddModal}>
+                <button type="button" className="business-button business-button--outline" onClick={closeAddModal}>
                   Cancel
                 </button>
-                <button type="submit" className="business-button--solid">
-                  Add Ringtone
+                <button type="submit" className="business-button business-button--solid">
+                  {editRingtoneId ? 'Save Changes' : 'Add Ringtone'}
                 </button>
               </div>
             </form>
