@@ -10,13 +10,15 @@ function BusinessLocation() {
   const location = useLocation();
   const navigate = useNavigate();
   const category = location.state?.category || 'Business';
+  const savedBusinessInfo = location.state?.businessInfo || {};
+  const savedLocationInfo = location.state?.locationInfo || {};
 
-  const [address, setAddress] = useState('');
-  const [country, setCountry] = useState('');
-  const [stateRegion, setStateRegion] = useState('');
-  const [city, setCity] = useState('');
-  const [pincode, setPincode] = useState('');
-  const [mapsLink, setMapsLink] = useState('');
+  const [address, setAddress] = useState(savedLocationInfo.address || '');
+  const [country, setCountry] = useState(savedLocationInfo.country || '');
+  const [stateRegion, setStateRegion] = useState(savedLocationInfo.stateRegion || '');
+  const [city, setCity] = useState(savedLocationInfo.city || '');
+  const [pincode, setPincode] = useState(savedLocationInfo.pincode || '');
+  const [mapsLink, setMapsLink] = useState(savedLocationInfo.mapsLink || '');
 
   const isValid = useMemo(() => {
     const pincodeRegex = /^[0-9]{4,10}$/;
@@ -128,7 +130,19 @@ function BusinessLocation() {
               ariaLabel="Continue to queue configuration"
               onClick={() => {
                 if (isValid) {
-                  navigate('/queue', { state: { category } });
+                  navigate('/queue', {
+                    state: {
+                      ...location.state,
+                      locationInfo: {
+                        address,
+                        country,
+                        stateRegion,
+                        city,
+                        pincode,
+                        mapsLink,
+                      },
+                    },
+                  });
                 }
               }}
             >

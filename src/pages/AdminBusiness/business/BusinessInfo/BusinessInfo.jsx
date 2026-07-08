@@ -10,12 +10,13 @@ function BusinessInfo() {
   const location = useLocation();
   const navigate = useNavigate();
   const category = location.state?.category || 'Business';
+  const savedBusinessInfo = location.state?.businessInfo || {};
 
-  const [businessName, setBusinessName] = useState('');
-  const [domain, setDomain] = useState('');
-  const [contactPerson, setContactPerson] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [email, setEmail] = useState('');
+  const [businessName, setBusinessName] = useState(savedBusinessInfo.businessName || '');
+  const [domain, setDomain] = useState(savedBusinessInfo.domain || '');
+  const [contactPerson, setContactPerson] = useState(savedBusinessInfo.contactPerson || '');
+  const [mobile, setMobile] = useState(savedBusinessInfo.mobile || '');
+  const [email, setEmail] = useState(savedBusinessInfo.email || '');
 
   const isValid = useMemo(() => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -122,7 +123,18 @@ function BusinessInfo() {
               ariaLabel="Continue to business location"
               onClick={() => {
                 if (isValid) {
-                  navigate('/location', { state: { category } });
+                  navigate('/location', {
+                    state: {
+                      ...location.state,
+                      businessInfo: {
+                        businessName,
+                        domain,
+                        contactPerson,
+                        mobile,
+                        email,
+                      },
+                    },
+                  });
                 }
               }}
             >

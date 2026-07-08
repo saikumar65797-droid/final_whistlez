@@ -11,10 +11,12 @@ function QueueConfiguration() {
   const navigate = useNavigate();
   const category = location.state?.category || 'Business';
 
-  const [tokenPrefix, setTokenPrefix] = useState('');
-  const [serviceTime, setServiceTime] = useState('');
-  const [maxDailyTokens, setMaxDailyTokens] = useState('');
-  const [notificationTime, setNotificationTime] = useState('');
+  const savedQueueInfo = location.state?.queueInfo || {};
+
+  const [tokenPrefix, setTokenPrefix] = useState(savedQueueInfo.tokenPrefix || '');
+  const [serviceTime, setServiceTime] = useState(savedQueueInfo.serviceTime || '');
+  const [maxDailyTokens, setMaxDailyTokens] = useState(savedQueueInfo.maxDailyTokens || '');
+  const [notificationTime, setNotificationTime] = useState(savedQueueInfo.notificationTime || '');
 
   const isValid = useMemo(() => {
     const tokenCount = Number(maxDailyTokens);
@@ -114,7 +116,17 @@ function QueueConfiguration() {
               ariaLabel="Continue to visual identity"
               onClick={() => {
                 if (isValid) {
-                  navigate('/identity', { state: { category } });
+                  navigate('/identity', {
+                    state: {
+                      ...location.state,
+                      queueInfo: {
+                        tokenPrefix,
+                        serviceTime,
+                        maxDailyTokens,
+                        notificationTime,
+                      },
+                    },
+                  });
                 }
               }}
             >

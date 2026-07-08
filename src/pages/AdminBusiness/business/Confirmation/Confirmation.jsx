@@ -1,12 +1,14 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaRegClock, FaQrcode } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useAuth } from '../../../../context/AuthContext';
 import Button from '../../../../components/AdminButton/Button.jsx';
 import './Confirmation.css';
 
 function Confirmation() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { saveBusinessProfile } = useAuth();
   const category = location.state?.category || 'Business';
   const businessName = location.state?.businessName || 'Your business';
   const locationLabel = location.state?.locationLabel || 'Hyderabad, TS';
@@ -83,7 +85,16 @@ function Confirmation() {
             type="button"
             ariaLabel="Go to admin dashboard"
             onClick={() => {
-              // Mark admin as onboarded
+              const businessProfile = {
+                category,
+                businessName,
+                locationLabel,
+                ...(location.state?.businessInfo || {}),
+                location: location.state?.locationInfo || {},
+                queue: location.state?.queueInfo || {},
+              };
+
+              saveBusinessProfile(businessProfile);
               localStorage.setItem('whistlez_admin_onboarded', 'true');
               navigate('/admin');
             }}

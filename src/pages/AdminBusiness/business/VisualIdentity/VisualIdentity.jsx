@@ -10,6 +10,9 @@ function VisualIdentity() {
   const location = useLocation();
   const navigate = useNavigate();
   const category = location.state?.category || 'Business';
+  const savedBusinessInfo = location.state?.businessInfo || {};
+  const savedLocationInfo = location.state?.locationInfo || {};
+  const savedQueueInfo = location.state?.queueInfo || {};
 
   const logoInputRef = useRef(null);
   const coverInputRef = useRef(null);
@@ -160,8 +163,13 @@ function VisualIdentity() {
                   navigate('/confirmation', {
                     state: {
                       category,
-                      businessName: 'Sri Krishna Hospital',
-                      locationLabel: 'Hyderabad, TS',
+                      businessInfo: savedBusinessInfo,
+                      locationInfo: savedLocationInfo,
+                      queueInfo: savedQueueInfo,
+                      businessName: savedBusinessInfo.businessName || 'Your business',
+                      locationLabel: savedLocationInfo.city
+                        ? `${savedLocationInfo.city}, ${savedLocationInfo.stateRegion}`
+                        : 'Hyderabad, TS',
                     },
                   });
                 }
