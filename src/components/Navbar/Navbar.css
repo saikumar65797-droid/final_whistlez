@@ -83,7 +83,7 @@
 
 /* Admin role - Blue badge (#1089D3) */
 .navbar-admin .notification-badge {
-  background: #1089D3;
+  background: #1089D3 !important;
 }
 
 .navbar-profile {

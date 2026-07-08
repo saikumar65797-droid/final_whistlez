@@ -107,11 +107,11 @@
 }
 
 .sidebar-admin .sidebar-collapse-btn {
-  background: #1089D3;
+  background: #1089D3 !important;
 }
 
 .sidebar-admin .sidebar-collapse-btn:hover {
-  background: #1089D3;
+  background: #1089D3 !important;
 }
 
 
@@ -287,12 +287,12 @@
 
 /* Admin role - Blue highlight (#1089D3) */
 .sidebar-admin .sidebar-nav li.active {
-  background: #1089d3;
-  color: #ffffff;
+  background: #1089d3 !important;
+  color: #ffffff !important;
 }
 
 .sidebar-admin .sidebar-nav li.active .nav-icon-wrap {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .nav-icon-wrap {
