@@ -15,9 +15,9 @@ import { DashboardIcon, ReportsIcon, SettingsIcon, LogoutIcon, UsersIcon, Busine
 const SUPERADMIN_NAV_ITEMS = [
   {
     label: 'Dashboard',
-    path: ['/', '/superadmin', '/superadmin/dashboard'],
+    path: ['/', '/dashboard', '/superadmin', '/superadmin/dashboard'],
     icon: DashboardIcon,
-    navigate: '/superadmin/dashboard',
+    navigate: '/dashboard',
   },
   {
     label: 'Users',
