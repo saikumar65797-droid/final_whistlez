@@ -21,6 +21,7 @@ import AdminDashboardHome from './pages/AdminBusiness/admin/AdminDashboard/Admin
 import AdminLiveQueue from './pages/AdminBusiness/admin/AdminLiveQueue/AdminLiveQueue.jsx';
 import AdminReports from './pages/AdminBusiness/admin/AdminReports/AdminReports.jsx';
 import AdminSettings from './pages/AdminBusiness/admin/AdminSettings/AdminSettings.jsx';
+import AdminUsers from './pages/AdminBusiness/admin/AdminUsers/AdminUsers.jsx';
 import { useAuth } from './context/AuthContext.jsx';
 import './App.css';
 
@@ -309,6 +310,7 @@ function App() {
       >
         <Route index element={<AdminDashboardHome />} />
         <Route path="live-queue" element={<AdminLiveQueue />} />
+        <Route path="users" element={<AdminUsers />} />
         <Route path="reports" element={<AdminReports />} />
         <Route path="settings" element={<AdminSettings />} />
       </Route>

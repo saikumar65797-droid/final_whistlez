@@ -72,6 +72,12 @@ const ADMIN_NAV_ITEMS = [
     navigate: '/admin/live-queue',
   },
   {
+    label: 'Users',
+    path: ['/admin/users'],
+    icon: UsersIcon,
+    navigate: '/admin/users',
+  },
+  {
     label: 'Reports',
     path: ['/admin/reports'],
     icon: ReportsIcon,
